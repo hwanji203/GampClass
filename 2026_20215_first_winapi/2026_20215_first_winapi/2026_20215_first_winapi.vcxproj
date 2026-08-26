@@ -24,6 +24,7 @@
     <ProjectGuid>{1c187b72-3c91-4ce2-826f-a54b9d114b9a}</ProjectGuid>
     <RootNamespace>My202620215firstwinapi</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>2026_20215_first_winapi</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -136,6 +137,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="2026_20215_first_winapi.ico" />
+    <Image Include="game.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

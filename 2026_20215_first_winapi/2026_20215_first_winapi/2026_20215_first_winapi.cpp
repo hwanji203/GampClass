@@ -3,6 +3,8 @@
 
 #include "framework.h"
 #include "2026_20215_first_winapi.h"
+#include "resource.h"
+#include<string>
 
 #define MAX_LOADSTRING 100
 #define TITLE_TEXT L"2-2반 겜프"
@@ -11,11 +13,15 @@
 HINSTANCE hInst;                                // 현재 인스턴스입니다.
 WCHAR szTitle[MAX_LOADSTRING] =TITLE_TEXT;                  // 제목 표시줄 텍스트입니다.
 WCHAR szWindowClass[MAX_LOADSTRING] = L"My Window Class";            // 기본 창 클래스 이름입니다.
+const int WINDOW_WIDTH = 1280;
+const int WINDOW_HEIGHT = 720;
 
 // 이 코드 모듈에 포함된 함수의 선언을 전달합니다:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
+//ATOM                MyRegisterSubClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
+//LRESULT CALLBACK    MyWndProc(HWND, UINT, WPARAM, LPARAM);
 INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -39,7 +45,37 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         return FALSE;
     }
 
-    //HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY202620215FIRSTWINAPI));
+    ////HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MY202620215FIRSTWINAPI));
+
+    //MyRegisterClass(hInstance);
+    //MyRegisterSubClass(hInstance);
+
+    //hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+
+    //HWND hWnd = CreateWindowW(
+    //    L"2-2 윈도우", // 윈도우 클래스 이름
+    //    L"2-2반 겜프", //제목 타이틀 바
+    //    WS_OVERLAPPEDWINDOW, // 윈도우 스타일
+    //    100, 100, // ★ 윈도우 화면 좌상단 x,y
+    //    800, 600, // ★ 해상도 크기(윈도우 가로, 세로 사이즈)
+    //    nullptr, // 부모 윈도우
+    //    nullptr,  // 메뉴 핸들
+    //    hInstance, // 인스턴스 핸들
+    //    nullptr);// 자식 윈도우
+
+    //HWND hSubWnd = CreateWindowW(
+    //    L"2-2 서브 윈도우", // 윈도우 클래스 이름
+    //    L"2-2반 겜프", //제목 타이틀 바
+    //    WS_OVERLAPPEDWINDOW, // 윈도우 스타일
+    //    900, 100, // ★ 윈도우 화면 좌상단 x,y
+    //    300, 300, // ★ 해상도 크기(윈도우 가로, 세로 사이즈)
+    //    nullptr, // 부모 윈도우
+    //    nullptr,  // 메뉴 핸들
+    //    hInstance, // 인스턴스 핸들
+    //    nullptr);// 자식 윈도우
+
+    //ShowWindow(hWnd, nCmdShow); // 윈도우 창을 보여주세요
+    //ShowWindow(hSubWnd, nCmdShow); // 윈도우 창을 보여주세요
 
     MSG msg;
 
@@ -69,21 +105,43 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     
     wcex.cbSize = sizeof(WNDCLASSEX); // 구조체 크기를 초기화(관습)
 
-    wcex.style          = CS_HREDRAW | CS_VREDRAW; // 윈도우 출력 스타일, ReDraw가 없으면 창을 좁히면 그냥 내용을 잘라버림
+    wcex.style          = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS; // 윈도우 출력 스타일, ReDraw가 없으면 창을 좁히면 그냥 내용을 잘라버림
     wcex.lpfnWndProc    = WndProc; // 메시지 처리 함수
     wcex.cbClsExtra     = 0; // 클리스 여분 메모리
     wcex.cbWndExtra     = 0; // 윈도우 여분 메모리
     wcex.hInstance      = hInstance; // 인스턴스 핸들
-    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MY202620215FIRSTWINAPI)); // 아이콘
+    wcex.hIcon          = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1)); // 아이콘
     wcex.hCursor        = LoadCursor(nullptr, IDC_ARROW); // 커서
-    wcex.hbrBackground  = (HBRUSH)GetStockObject(WHITE_BRUSH); // 배경
+    wcex.hbrBackground  = (HBRUSH)GetStockObject(BLACK_BRUSH); // 배경
     wcex.lpszMenuName   = MAKEINTRESOURCEW(IDC_MY202620215FIRSTWINAPI); // 메뉴
     //wcex.lpszMenuName = nullptr; // 메뉴
-    wcex.lpszClassName  = szWindowClass; // 윈도우 클래스 이름
-    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL)); // 작은 아이콘
+    wcex.lpszClassName  = L"2-2반 윈도우"; // 윈도우 클래스 이름
+    wcex.hIconSm        = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_ICON1)); // 작은 아이콘
 
     return RegisterClassExW(&wcex);
 }
+
+//ATOM MyRegisterSubClass(HINSTANCE hInstance)
+//{
+//    WNDCLASSEXW wcex; // 윈도우 정보를 저장할 구조체
+//
+//    wcex.cbSize = sizeof(WNDCLASSEX); // 구조체 크기를 초기화(관습)
+//
+//    wcex.style = CS_HREDRAW | CS_VREDRAW; // 윈도우 출력 스타일, ReDraw가 없으면 창을 좁히면 그냥 내용을 잘라버림
+//    wcex.lpfnWndProc = MyWndProc; // 메시지 처리 함수
+//    wcex.cbClsExtra = 0; // 클리스 여분 메모리
+//    wcex.cbWndExtra = 0; // 윈도우 여분 메모리
+//    wcex.hInstance = hInstance; // 인스턴스 핸들
+//    wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MY202620215FIRSTWINAPI)); // 아이콘
+//    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW); // 커서
+//    wcex.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); // 배경
+//    wcex.lpszMenuName = MAKEINTRESOURCEW(IDC_MY202620215FIRSTWINAPI); // 메뉴
+//    //wcex.lpszMenuName = nullptr; // 메뉴
+//    wcex.lpszClassName = L"2-2반 서브 윈도우"; // 윈도우 클래스 이름
+//    wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL)); // 작은 아이콘
+//
+//    return RegisterClassExW(&wcex);
+//}
 
 //
 //   함수: InitInstance(HINSTANCE, int)
@@ -98,13 +156,15 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
+   int windowPosX = GetSystemMetrics(SM_CXSCREEN) / 2 - WINDOW_WIDTH / 2;
+   int windowPosY = GetSystemMetrics(SM_CYSCREEN) / 2 - WINDOW_HEIGHT / 2;
 
    HWND hWnd = CreateWindowW(
-       szWindowClass, // 윈도우 클래스 이름
-       szTitle,  //제목 타이틀 바
+       L"2-2반 윈도우", // 윈도우 클래스 이름
+       L"2-2반 겜프", //제목 타이틀 바
        WS_OVERLAPPEDWINDOW, // 윈도우 스타일
-      100, 100, // ★ 윈도우 화면 좌상단 x,y
-       800, 600, // ★ 해상도 크기(윈도우 가로, 세로 사이즈)
+       windowPosX, windowPosY, // ★ 윈도우 화면 좌상단 x,y
+       WINDOW_WIDTH, WINDOW_HEIGHT, // ★ 해상도 크기(윈도우 가로, 세로 사이즈)
        nullptr, // 부모 윈도우
        nullptr,  // 메뉴 핸들
        hInstance, // 인스턴스 핸들
@@ -131,10 +191,32 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
 //
 //
+//LRESULT CALLBACK MyWndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//    switch (message)
+//    {
+//        case WM_LBUTTONDOWN:
+//            MessageBox(hWnd, L"서브", L"서브", MB_OK);
+//            break;
+//        default:
+//            return DefWindowProc(hWnd, message, wParam, lParam);
+//    }
+//    return DefWindowProc(hWnd, message, wParam, lParam);
+//}
+
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    static UINT cnt = 0;
+    cnt++;
+
     switch (message)
     {
+        case WM_CREATE:
+            SetDoubleClickTime(1000);
+            break;
+        case WM_LBUTTONDBLCLK:
+            MessageBox(hWnd, L"더블 클릭", L"더블", MB_ICONSTOP);
+            break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -161,8 +243,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         }
         break;
     case WM_DESTROY:
+    {
+        std::wstring str = L"메시지 수 " + std::to_wstring(cnt);
+        MessageBox(hWnd, str.c_str(), L"Destroy", MB_OK);
         PostQuitMessage(0);
         break;
+    }
     default:
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
