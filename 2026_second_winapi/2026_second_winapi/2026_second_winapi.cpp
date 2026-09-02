@@ -102,8 +102,11 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
    hInst = hInstance; // 인스턴스 핸들을 전역 변수에 저장합니다.
 
+   RECT windowRt = { 0, 0, WINDOW_WIDTH, WINDOW_HEIGHT };
+   AdjustWindowRect(&windowRt, WS_OVERLAPPEDWINDOW, true);
    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, WINDOW_WIDTH, WINDOW_HEIGHT, nullptr, nullptr, hInstance, nullptr);
+                             CW_USEDEFAULT, 0, windowRt.right - windowRt.left,
+                             windowRt.bottom - windowRt.top, nullptr, nullptr, hInstance, nullptr);
 
    if (!hWnd)
    {
@@ -158,24 +161,62 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
 
+            HPEN pen = CreatePen(PS_SOLID, 1, RGB(0, 255, 255));
+            SelectObject(hdc, pen);
+            HBRUSH;
+
+            Rectangle(hdc, 300, 200, 400, 300);
+            DeleteObject(pen);
+            Rectangle(hdc, 500, 500, 600, 600);
+
+            //Rectangle(hdc, 50, 50, 300, 300);
+
+            //wstring wstr = L"PLAYER";
+            //RECT rt = { 300, 200, 400, 300 };
+            //DrawText(hdc, wstr.c_str(), wstr.length(), &rt
+            //         , DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+            //POINT points[3] = { {410, 245}, {410, 255}, {420, 250} };
+            //Polygon(hdc, points, 3);
+
+            // 특수 도형
+            //POINT points[3] = { {150, 50}, {100, 150}, {200, 150} };
+            ////POINT points[5] = { {150, 50}, {100, 150}, {200, 150} };
+            //Polygon(hdc, points, 3);
+            //RoundRect(hdc, 100, 100, 200, 200, 20, 20);
+
+            //SetArcDirection(hdc, AD_CLOCKWISE);
+            //Pie(hdc, 100, 100, 300, 300,
+            //    300, 200, 200, 100);
+            //RECT rt = { 500, 500, 600, 600 };
+            //InvertRect(hdc, &rt);
+
+            //for (int i = 0; i < 25; ++i)
+            //{
+            //    int left = 100 + 70 * (i % 5);
+            //    int top = 100 + (70 * (int)(i / 5));
+            //    if (i / 5 % 2 == 0)
+            //        Rectangle(hdc, left, top, left + 50, top + 50);
+            //    else
+            //        Ellipse(hdc, left, top, left + 50, top + 50);
+            //}
+
             //for (int i = 0; i < 1000; ++i)
             //    SetPixel(hdc, rand() % 100, rand() % 100, RGB(0, 255, 0));
             //MoveToEx(hdc, 150, 150, nullptr);
             //LineTo(hdc, 300, 150);
 
-            for (int i = 0; i < 10; ++i)
-            {
-                MoveToEx(hdc, 0, i * WINDOW_HEIGHT / 9, nullptr);
-                LineTo(hdc, WINDOW_WIDTH, i * WINDOW_HEIGHT / 9);
-            }
+            //for (int i = 0; i < 10; ++i)
+            //{
+            //    MoveToEx(hdc, 0, i * WINDOW_HEIGHT / 9, nullptr);
+            //    LineTo(hdc, WINDOW_WIDTH, i * WINDOW_HEIGHT / 9);
+            //}
 
-            for (int i = 0; i < 17; ++i)
-            {
-                MoveToEx(hdc, i * WINDOW_WIDTH / 16, 0, nullptr);
-                LineTo(hdc, i * WINDOW_WIDTH / 16, WINDOW_HEIGHT);
-            }
+            //for (int i = 0; i < 17; ++i)
+            //{
+            //    MoveToEx(hdc, i * WINDOW_WIDTH / 16, 0, nullptr);
+            //    LineTo(hdc, i * WINDOW_WIDTH / 16, WINDOW_HEIGHT);
+            //}
 
-            AdjustWindowRect(&clientRt, SHOW_FULLSCREEN, FALSE);
             
             //// TODO: 여기에 hdc를 사용하는 그리기 코드를 추가합니다...
             //// 텍스트 출력
