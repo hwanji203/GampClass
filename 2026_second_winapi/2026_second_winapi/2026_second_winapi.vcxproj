@@ -129,7 +129,11 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="2026_second_winapi.cpp" />
+    <ClCompile Include="2026_second_winapi.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="입력.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2026_second_winapi.rc" />

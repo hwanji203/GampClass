@@ -161,13 +161,35 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
 
-            HPEN pen = CreatePen(PS_SOLID, 1, RGB(0, 255, 255));
-            SelectObject(hdc, pen);
-            HBRUSH;
+            //HBRUSH brush = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
+            //SelectObject(hdc, brush);
+            //Rectangle(hdc, 100, 100, 200, 200);
+            //Rectangle(hdc, 150, 150, 250, 250);
 
-            Rectangle(hdc, 300, 200, 400, 300);
-            DeleteObject(pen);
-            Rectangle(hdc, 500, 500, 600, 600);
+            //HPEN pen = CreatePen(PS_SOLID, 5, RGB(0, 0, 255));
+            //HBRUSH brush = CreateHatchBrush(HS_BDIAGONAL, RGB(0, 255, 0));
+
+            //SelectObject(hdc, pen);
+            //SelectObject(hdc, brush);
+
+            //Rectangle(hdc, 10, 10, 200, 130);
+
+            //HPEN pen = CreatePen(PS_SOLID, 1, RGB(0, 255, 255));
+            //HPEN defaultPen = (HPEN)SelectObject(hdc, pen);
+
+            ////HBRUSH brush = CreateSolidBrush(RGB(67, 67, 67));
+            //HBRUSH brush = CreateHatchBrush(HS_CROSS, RGB(67, 67, 67));
+            //HBRUSH defaultBrush = (HBRUSH)SelectObject(hdc, brush);
+
+            //Rectangle(hdc, 300, 200, 400, 300);
+
+            //SelectObject(hdc, defaultPen);
+            //SelectObject(hdc, defaultBrush);
+            //Rectangle(hdc, 400, 300, 500, 400);
+
+
+            //DeleteObject(pen);
+            //DeleteObject(brush);
 
             //Rectangle(hdc, 50, 50, 300, 300);
 
