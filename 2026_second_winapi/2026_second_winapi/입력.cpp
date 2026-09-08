@@ -156,6 +156,22 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
 
+            HPEN pen = CreatePen(PS_SOLID, 3, RGB(0, 0, 0));
+            HBRUSH bodyBrush = CreateSolidBrush(RGB(50, 50, 50));
+            HBRUSH redBrush = CreateSolidBrush(RGB(255, 0, 0));
+            HBRUSH greenBrush = CreateSolidBrush(RGB(0, 255, 0));
+
+            SelectObject(hdc, pen);
+
+            SelectObject(hdc, bodyBrush);
+            Rectangle(hdc, 100, 50, 250, 350);
+
+            SelectObject(hdc, redBrush);
+            Ellipse(hdc, 125, 75, 225, 175);
+
+            SelectObject(hdc, greenBrush);
+            Ellipse(hdc, 125, 75 + 150, 225, 175 + 150);
+
             EndPaint(hWnd, &ps);
         }
         break;
