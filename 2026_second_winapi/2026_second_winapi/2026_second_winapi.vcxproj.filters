@@ -35,6 +35,9 @@
     <ClCompile Include="입력.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="homework.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="2026_second_winapi.rc">
