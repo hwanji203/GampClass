@@ -5,6 +5,7 @@
 #include "2026_second_winapi.h"
 #include <string>
 #include <ctime>
+#include <vector>
 using std::wstring;
 
 #define MAX_LOADSTRING 100
@@ -119,187 +120,243 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     return TRUE;
 }
 
+//// 연습문제 9-4
+//LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//    static POINT objPos = { 100,100 };
+//    static POINT objSize = { 50,50 };
+//    static int speed = 5;
+//    static RECT rt = { 0,0,300, 300 };
+//    static bool isVisible = true;
+//    switch (message)
+//    {
+//    case WM_CREATE:
+//        SetTimer(hWnd, 1, 500, nullptr);
+//        break;
+//    case WM_TIMER:
+//        objPos.x += speed;
+//        if (objPos.x - objSize.x / 2 <= 0 ||
+//            objPos.x + objSize.x / 2 >= rt.right)
+//        {
+//            speed = -speed;
+//        }
+//        isVisible = !isVisible;
+//        InvalidateRect(hWnd, nullptr, true);
+//        break;
+//    case WM_PAINT:
+//    {
+//        PAINTSTRUCT ps;
+//        HDC hdc = BeginPaint(hWnd, &ps);
+//        Rectangle(hdc
+//            , objPos.x - objSize.x / 2
+//            , objPos.y - objSize.y / 2
+//            , objPos.x + objSize.x / 2
+//            , objPos.y + objSize.y / 2
+//        );
+//        if (isVisible)
+//        {
+//            wstring str = L"PLAYER";
 //
-//  함수: WndProc(HWND, UINT, WPARAM, LPARAM)
+//            TextOut(hdc, objPos.x - objSize.x / 2
+//                , objPos.y - objSize.y / 2 - 20,
+//                str.c_str(), str.length());
+//        }
+//        EndPaint(hWnd, &ps);
+//    }
+//    break;
+//    case WM_DESTROY:
+//        PostQuitMessage(0);
+//        break;
+//    default:
+//        return DefWindowProc(hWnd, message, wParam, lParam);
+//    }
+//    return 0;
+//}
+//bool InCircle(POINT mousePos, POINT pos, int radius)
+//{
+//    int dx = pos.x - mousePos.x;
+//    int dy = pos.y - mousePos.y;
+//    return dx * dx + dy * dy < radius * radius;
+//}
+//// 마우스 
+//LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//    // 원을 클릭하면 뒤에 사각형  아웃라인
+//    static POINT objPos = { 100,100 };
+//    static POINT objSize = { 200,200 };
+//    static bool isClick = false;
+//    static POINT mousePos;
+//    switch (message)
+//    {
+//    case WM_MOUSEMOVE:
+//        if (isClick)
+//        {
+//            mousePos = { LOWORD(lParam), HIWORD(lParam) };
+//            objPos = mousePos;
+//            InvalidateRect(hWnd, nullptr, true);
+//        }
+//        break;
+//    case WM_LBUTTONDOWN:
+//    {
+//        mousePos = {LOWORD(lParam), HIWORD(lParam)};
+//        if(InCircle(mousePos, objPos, objSize.x / 2))
+//            isClick = true;
+//        InvalidateRect(hWnd, nullptr, true);
+//    }
+//    break;
+//    case WM_LBUTTONUP:
+//    {
+//        isClick = false;
+//        InvalidateRect(hWnd, nullptr, true);
+//    }
+//        break;
 //
-//  용도: 주 창의 메시지를 처리합니다.
+//    case WM_PAINT:
+//    {
+//        PAINTSTRUCT ps;
+//        HDC hdc = BeginPaint(hWnd, &ps);
+//        if (isClick)
+//            Rectangle(hdc
+//                , objPos.x - objSize.x / 2
+//                , objPos.y - objSize.y / 2
+//                , objPos.x + objSize.x / 2
+//                , objPos.y + objSize.y / 2
+//            );
+//        Ellipse(hdc
+//            , objPos.x - objSize.x / 2
+//            , objPos.y - objSize.y / 2
+//            , objPos.x + objSize.x / 2
+//            , objPos.y + objSize.y / 2
+//        );
 //
-//  WM_COMMAND  - 애플리케이션 메뉴를 처리합니다.
-//  WM_PAINT    - 주 창을 그립니다.
-//  WM_DESTROY  - 종료 메시지를 게시하고 반환합니다.
+//        EndPaint(hWnd, &ps);
+//    }
+//    break;
 //
 //
+//
+//    case WM_DESTROY:
+//        PostQuitMessage(0);
+//        break;
+//    default:
+//        return DefWindowProc(hWnd, message, wParam, lParam);
+//    }
+//    return 0;
+//}
+
+//// 연습문제 10-1
+//LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+//{
+//    static std::vector<POINT> vecCircles;
+//    switch (message)
+//    {
+//    case WM_LBUTTONDOWN:
+//    {
+//        vecCircles.push_back({LOWORD(lParam), HIWORD(lParam)});
+//        InvalidateRect(hWnd, nullptr, true);
+//    }
+//        break;
+//    case WM_PAINT:
+//    {
+//        PAINTSTRUCT ps;
+//        HDC hdc = BeginPaint(hWnd, &ps);
+//        for (const auto& pt : vecCircles)
+//            Ellipse(hdc, pt.x - 10, pt.y - 10,
+//                        pt.x + 10, pt.y + 10);
+//        EndPaint(hWnd, &ps);
+//    }
+//    break;
+//    case WM_DESTROY:
+//        PostQuitMessage(0);
+//        break;
+//    default:
+//        return DefWindowProc(hWnd, message, wParam, lParam);
+//    }
+//    return 0;
+//}
+struct Object
+{
+    POINT pos;
+    POINT size;
+};
+// 연습문제 10-2
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    static WCHAR wArr[100];
-    static UINT cnt = 0;
-    static UINT yPos = 0;
-
-    static UINT colorIdx = 0;
-    auto curColor = [](int idx){
-        switch (idx % 3)
-        {
-            case 0: return RGB(255, 0, 0);
-            case 1: return RGB(0, 0, 255);
-            case 2: return RGB(0, 255, 0);
-        }
-    };
-    static bool isFontAdded = false;
-    static HFONT font = nullptr;
-    static HFONT testFont = nullptr;
-    static UINT defaultSize = 30;
+    static std::vector<Object> vecObjs;
+    static bool isClick = false;
+    static POINT startPos;
+    static POINT endPos;
     switch (message)
     {
-        //case WM_KEYDOWN:
-        //{
-        //    int a = 0;
-        //}
-        //break;
-        case WM_CREATE:
+        case WM_LBUTTONDOWN:
         {
-            srand((unsigned int)time(nullptr));
-            // 폰트 설치 -> 제거
-            // 폰트 생성 -> 잡기
-            if (AddFontResourceEx(L"나눔손글씨 암스테르담.ttf", FR_PRIVATE, 0) > 0)
-                isFontAdded = true;
-            font = CreateFont(
-                0, 0, 0, 0,
-                FW_NORMAL, false, false, false,
-                HANGEUL_CHARSET, OUT_DEFAULT_PRECIS,
-                CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-                DEFAULT_PITCH | FF_DONTCARE,
-                L"나눔손글씨 암스테르담"
-            );
-
-            testFont = CreateFont(
-                defaultSize, 0, 0, 0,
-                FW_NORMAL, false, false, false,
-                HANGEUL_CHARSET, OUT_DEFAULT_PRECIS,
-                CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-                DEFAULT_PITCH | FF_DONTCARE,
-                L"맑은 고딕"
-            );
+            isClick = true;
+            startPos = { LOWORD(lParam), HIWORD(lParam) };
+            endPos = startPos;
         }
         break;
-        case WM_KEYDOWN:
-        {
-            int plusSize = 0;
-            bool isBold = false;
-
-            switch (wParam)
+        case WM_MOUSEMOVE:
+            if (isClick)
             {
-                case VK_UP:
-                {
-                    plusSize = 2;
-                }
-                break;
-                case VK_DOWN:
-                {
-                    plusSize = -2;
-                }
-                break;
-                case 'B':
-                {
-                    if (isBold)
-                    {
-                        isBold = false;
-                    }
-                    else
-                    {
-                        isBold = true;
-                    }
-                }
-                case 'b':
-                {
-                    isBold = isBold ? false : true;
-                }
-                break;
+                endPos = { LOWORD(lParam), HIWORD(lParam) };
+                InvalidateRect(hWnd, nullptr, true);
             }
-            defaultSize += plusSize;
-            testFont = CreateFont(
-                defaultSize, 0, 0, 0,
-                isBold ? FW_BOLD : FW_NORMAL, false, false, false,
-                HANGEUL_CHARSET, OUT_DEFAULT_PRECIS,
-                CLIP_DEFAULT_PRECIS, NONANTIALIASED_QUALITY,
-                DEFAULT_PITCH | FF_DONTCARE,
-                L"맑은 고딕"
-            );
-        }
-        case WM_CHAR:
+            break;
+        case WM_LBUTTONUP:
         {
-            HDC hdc = GetDC(hWnd);
-            //wstring str = L"2-2반 이제 진짜 시작";
-            //TextOut(hdc, 10, 10, str.c_str(), str.length());
-            if (wParam == VK_BACK && cnt > 0)
-            {
-                cnt--;
-            }
-            else if (wParam == VK_SPACE && cnt > 0)
-                cnt = 0;
-            //else if (wParam == VK_RETURN)
-            //{
-            //    cnt = 0;
-            //    yPos += 20;
-            //}
-            else
-                wArr[cnt++] = wParam;
-            wArr[cnt] = '\0';
-            //colorIdx++;
+            isClick = false;
+            Object obj;
+            obj.pos = { {(startPos.x + endPos.x) / 2} ,{(startPos.y + endPos.y) / 2} };
+            obj.size = { {abs(endPos.x - startPos.x)},{abs(endPos.y - startPos.y)} };
+            vecObjs.push_back(obj);
             InvalidateRect(hWnd, nullptr, true);
-            //TextOut(hdc, 10, 10, wArr, wcslen(wArr));
-            //ReleaseDC(hWnd, hdc);
+        }
+        break;
+        case WM_MOUSEWHEEL:
+        {
+            short delta = GET_WHEEL_DELTA_WPARAM(wParam);
+            if (!vecObjs.empty())
+            {
+                auto& lastObj = vecObjs.back();
+                if (delta > 0)
+                {
+                    lastObj.size.x += 10;
+                    lastObj.size.y += 10;
+                }
+                else
+                {
+                    lastObj.size.x = std::max(10, (int)lastObj.size.x - 10);
+                    lastObj.size.y = std::max(10, (int)lastObj.size.y - 10);
+                }
+                InvalidateRect(hWnd, nullptr, true);
+            }
+
         }
         break;
         case WM_PAINT:
         {
             PAINTSTRUCT ps;
             HDC hdc = BeginPaint(hWnd, &ps);
-
-            HFONT def = (HFONT)SelectObject(hdc, testFont);
-            //TextOut(hdc, 10, yPos, wArr, wcslen(wArr));
-            //SetTextColor(hdc, curColor(colorIdx));
-            RECT rt = { 200, 300, 300, 400};
-            Rectangle(hdc, 200, 300, 300, 400);
-            TextOut(hdc, 200, 100, L"Font Text (Up/Down/B Key)", wcslen(L"Font Text (Up/Down/B Key)"));
-            DrawText(hdc, L"START", wcslen(L"START"), &rt, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
-            SelectObject(hdc, def);
-            DeleteObject(testFont);
-            //HPEN pen = CreatePen(PS_SOLID, 3, RGB(0, 0, 0));
-            //HBRUSH bodyBrush = CreateSolidBrush(RGB(50, 50, 50));
-            //HBRUSH redBrush = CreateSolidBrush(RGB(255, 0, 0));
-            //HBRUSH greenBrush = CreateSolidBrush(RGB(0, 255, 0));
-
-            //HPEN defaultPen = (HPEN)SelectObject(hdc, pen);
-
-            //HBRUSH defaultBrush = (HBRUSH)SelectObject(hdc, bodyBrush);
-            //Rectangle(hdc, 100, 50, 250, 350);
-
-            //SelectObject(hdc, redBrush);
-            //Ellipse(hdc, 125, 75, 225, 175);
-
-            //SelectObject(hdc, greenBrush);
-            //Ellipse(hdc, 125, 75 + 150, 225, 175 + 150);
-
-            //SelectObject(hdc, defaultPen);
-            //SelectObject(hdc, defaultBrush);
-            //DeleteObject(pen);
-            //DeleteObject(bodyBrush);
-            //DeleteObject(redBrush);
-            //DeleteObject(greenBrush);
+            for (const auto& obj : vecObjs)
+            {
+                Rectangle(hdc
+                          , obj.pos.x - obj.size.x / 2
+                          , obj.pos.y - obj.size.y / 2
+                          , obj.pos.x + obj.size.x / 2
+                          , obj.pos.y + obj.size.y / 2
+                );
+            }
+            if (isClick)
+            {
+                Rectangle(hdc, startPos.x, startPos.y,
+                          endPos.x, endPos.y);
+            }
 
             EndPaint(hWnd, &ps);
         }
         break;
         case WM_DESTROY:
-        {
-            if (font != nullptr)
-            {
-                DeleteObject(font);
-            }
-            if (isFontAdded)
-                RemoveFontResourceEx(L"나눔손글씨 암스테르담.ttf", FR_PRIVATE, 0);
             PostQuitMessage(0);
-        }
             break;
         default:
             return DefWindowProc(hWnd, message, wParam, lParam);
