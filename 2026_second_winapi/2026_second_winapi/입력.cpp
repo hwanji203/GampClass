@@ -1,5 +1,6 @@
 // 2026_second_winapi.cpp : 애플리케이션에 대한 진입점을 정의합니다.
 //
+#define NOMINMAX
 
 #include "framework.h"
 #include "2026_second_winapi.h"
