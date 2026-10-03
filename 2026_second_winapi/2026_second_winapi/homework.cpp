@@ -130,40 +130,45 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 //
 //
 // 연습문제 9-4
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     static POINT objPos = { 300, 300 };
     static POINT objSize = { 50, 50 };
-    static float playerYVec = 0;
+    static POINT obj2Pos = { rand() % (int)WINDOW_WIDTH, 0 };
+    static POINT obj2Size = { 50, 50 };
+    static float playerYVel = 0;
     static float gravity = -9.8f;
-    static int jumpPower = 10;
+    static int jumpPower = 15;
     static int delta = 100;
-    static bool isGrounded = true;
+    static bool isGrounded = false;
     switch (message)
     {
         case WM_CREATE:
-            SetTimer(hWnd, 1, 10, nullptr);
+            SetTimer(hWnd, 1, 100, nullptr);
             break;
         case WM_TIMER:
-            if (objPos.y >= 300 && playerYVec < 0)
+            isGrounded = false;
+
+            if (objPos.y >= 300 && playerYVel >= 0)
             {
                 objPos.y = 300;
                 isGrounded = true;
-                playerYVec = 0;
+                playerYVel = 0;
             }
+            
+            playerYVel += 1;
+            objPos.y += playerYVel;
 
-            if (true)
-            {
-                playerYVec -= gravity / delta;
-                objPos.y += playerYVec;
-            }
+            obj2Pos.y += 5;
+            if (obj2Pos.y >= 300)
+                obj2Pos = { rand() % (int)WINDOW_WIDTH, 0 };
 
             InvalidateRect(hWnd, nullptr, true);
             break;
-        case WM_LBUTTONDOWN:
+        case WM_KEYDOWN:
         {
-            playerYVec = 100;
+            if (wParam == VK_SPACE && isGrounded)
+                playerYVel = -jumpPower;
             //int x = LOWORD(lParam);
             //int y = HIWORD(lParam);
             //isVisible = false;
@@ -174,21 +179,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             //    isVisible = true;
             //    objPos = { x, y };
             //}
-            //InvalidateRect(hWnd, nullptr, true);
-        }
-        break;
-        case WM_LBUTTONUP:
-            //isVisible = false;
-            //InvalidateRect(hWnd, nullptr, true);
-            break;
-        case WM_MOUSEMOVE:
-        {
-            //int x = LOWORD(lParam);
-            //int y = HIWORD(lParam);
-
-            //if (isVisible)
-            //    objPos = { x, y };
-
             //InvalidateRect(hWnd, nullptr, true);
         }
         break;
@@ -205,17 +195,25 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             //              , objPos.y + objSize.y / 2
             //    );
 
-            Ellipse(hdc
+            Rectangle(hdc
                     , objPos.x - objSize.x / 2
                     , objPos.y - objSize.y / 2
                     , objPos.x + objSize.x / 2
                     , objPos.y + objSize.y / 2
             );
-
+            MoveToEx(hdc, 0, 325, nullptr);
+            LineTo(hdc, 2000, 325);
+            Ellipse(hdc
+                      , obj2Pos.x - obj2Size.x / 2
+                      , obj2Pos.y - obj2Size.y / 2
+                      , obj2Pos.x + obj2Size.x / 2
+                      , obj2Pos.y + obj2Size.y / 2
+            );
             EndPaint(hWnd, &ps);
         }
         break;
         case WM_DESTROY:
+            KillTimer(hWnd, 1);
             PostQuitMessage(0);
             break;
         default:
@@ -223,6 +221,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     }
     return 0;
 }
+
 //
 //LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 //{
