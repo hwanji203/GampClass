@@ -145,7 +145,6 @@ void DrawColoredRect(HDC hdc, const RECT& rect, COLORREF penColor, COLORREF brus
     HPEN oldPen = (HPEN)SelectObject(hdc, pen);
     HBRUSH oldBrush = (HBRUSH)SelectObject(hdc, brush);
     Rectangle(hdc, rect.left, rect.top, rect.right, rect.bottom);
-
     SelectObject(hdc, oldPen);
     SelectObject(hdc, oldBrush);
     DeleteObject(pen);
